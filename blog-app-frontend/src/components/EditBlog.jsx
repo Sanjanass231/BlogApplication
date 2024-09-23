@@ -36,7 +36,7 @@ const EditBlog = () => {
 
     try {
       const res = await fetch(`http://127.0.0.1:8000/api/edit/${params.id}`, {
-        method: "POST",
+        method: "PUT",
         body: formData, // Use FormData for file upload
       });
 
