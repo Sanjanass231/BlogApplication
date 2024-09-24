@@ -56,7 +56,72 @@ const EditBlog = () => {
   function onChange(e) {
     setHtml(e.target.value);
   }
-  return <div>hkjh</div>;
+  return (
+    <div className="container mb-5">
+      <div className="d-flex justify-content-between pt-5 mb-4">
+        <h4>Create Blog</h4>
+        <a href="/" className="btn btn-dark">
+          Back
+        </a>
+      </div>
+      <div className="card border-0 shadow-lg">
+        <form onSubmit={handleSubmit(formSubmit)}>
+          <div className="card-body">
+            <div className="mb-3">
+              <label className="form-label">Title</label>
+              <input
+                {...register("title", { required: true })}
+                type="text"
+                className={`form-control ${errors.title && "is-invalid"} `}
+                placeholder="Title"
+              />
+              {errors.title?.type === "required" && (
+                <p className="invalid-feedback">tille field is required</p>
+              )}
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Short Description</label>
+              <textarea
+                {...register("shortDesc")}
+                rows="5"
+                cols="30"
+                className="form-control"
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Description</label>
+              <br />
+              <Editor
+                value={html}
+                containerProps={{ style: { height: "700px" } }}
+                onChange={onChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Image</label>
+              <br />
+              <input {...register("image")} type="file" />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Author</label>
+              <br />
+              <input
+                {...register("author", { required: true })}
+                type="text"
+                placeholder="Author"
+                className={`form-control ${errors.author && "is-invalid"} `}
+              />
+              {errors.author?.type === "required" && (
+                <p className="invalid-feedback">author field is required</p>
+              )}
+            </div>
+            <button className="btn btn-dark">Update</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default EditBlog;
