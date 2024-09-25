@@ -17,10 +17,16 @@ const BlogCard = ({blog,blogs,setBlogs}) => {
     return (
       <div className="col-md-2 col-lg-3 col-12 mb-4">
         <div className="card border-0 shadow-lg">
-          <img
-            src={`http://127.0.0.1:8000/storage/${blog.image}`}
-            className="card-img-top"
-          />
+         <img
+  src={
+    blog.image
+      ? `http://127.0.0.1:8000/storage/${blog.image}`
+      : "https://placehold.co/600x400"
+  }
+  className="card-img-top "  // Add a class to control image size
+  alt={blog.title}
+/>
+
           <div className="card-body">
             <h2 className="h5">{blog.title}</h2>
             <p>{blog.shortDesc}</p>
@@ -30,7 +36,11 @@ const BlogCard = ({blog,blogs,setBlogs}) => {
               </a>
               {/* delete */}
               <div>
-                <a href="#" className="text-danger" onClick={() => deleteBlog(blog.id)}>
+                <a
+                  href="#"
+                  className="text-danger"
+                  onClick={() => deleteBlog(blog.id)}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
