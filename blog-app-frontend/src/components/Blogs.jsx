@@ -19,6 +19,11 @@ const Blogs = () => {
     
   }
 
+  const resetSearch = () => {
+    fetchBlogs();
+    setKeyword('');
+  }
+
   useEffect(() => {
     fetchBlogs();
   }, []);
@@ -36,6 +41,7 @@ const Blogs = () => {
               placeholder="Search Blogs"
             />
             <button className="btn btn-dark ms-2">Search</button>
+            <button type='button' onClick={() => resetSearch()} className="btn btn-success ms-2">Reset</button>
           </div>
         </form>
       </div>
