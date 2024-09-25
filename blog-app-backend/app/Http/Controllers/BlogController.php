@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class BlogController extends Controller
 {
@@ -84,6 +85,7 @@ class BlogController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        // Log::info($request);
         $blog = Blog::find($id);
 
        if($blog == null){

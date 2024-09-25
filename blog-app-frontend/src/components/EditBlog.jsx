@@ -42,12 +42,15 @@ const EditBlog = () => {
     formData.append("author", data.author);
 
     // Append the file (if uploaded)
-    if (data.image[0]) {
-      formData.append("image", data.image[0]); // Attach the first file
+    if (data.image && data.image[0]) {
+      formData.append("image", data.image[0]);
     }
 
+    // Simulate PUT request using POST with hidden _method field
+    formData.append("_method", "PUT");
+
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/store", {
+      const res = await fetch(`http://127.0.0.1:8000/api/update/${params.id}`, {
         method: "POST",
         body: formData, // Use FormData for file upload
       });
@@ -118,6 +121,15 @@ const EditBlog = () => {
               <label className="form-label">Image</label>
               <br />
               <input {...register("image")} type="file" />
+              <div>
+                {" "}
+                {blog.image && (
+                  <img
+                    className="w-50"
+                    src={`http://127.0.0.1:8000/storage/${blog.image}`}
+                  />
+                )}
+              </div>
             </div>
 
             <div className="mb-3">
@@ -133,7 +145,7 @@ const EditBlog = () => {
                 <p className="invalid-feedback">author field is required</p>
               )}
             </div>
-            <button className="btn btn-dark">Create</button>
+            <button className="btn btn-dark">Update</button>
           </div>
         </form>
       </div>
