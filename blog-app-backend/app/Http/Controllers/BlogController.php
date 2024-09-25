@@ -11,14 +11,25 @@ class BlogController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $blogs = Blog::orderBy('created_at','DESC')->get();
+    public function index(Request $request)
+{
+    try {
+        $keyword = $request->input('keyword', '');
+        $blogs = Blog::where('title', 'like', "%$keyword%")->get();
+        
         return response()->json([
-      'status' => true,
-      'data'=>$blogs
+            'status' => true,
+            'data' => $blogs
         ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'An error occurred.',
+            'error' => $e->getMessage(),
+        ], 500);
     }
+}
+
 
     /**
      * Store a newly created resource in storage.
