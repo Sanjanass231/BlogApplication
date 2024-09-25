@@ -14,6 +14,7 @@ const BlogDetail = () => {
     useEffect(() => {
         fetchBlog();
     }, []);
+  
   return (
     <div className="container">
       <div className="d-flex justify-content-between pt-5 mb-4">

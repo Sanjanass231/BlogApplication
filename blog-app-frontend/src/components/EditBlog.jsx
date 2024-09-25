@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 // for text area editor
 import Editor from "react-simple-wysiwyg";
@@ -8,16 +8,28 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 
 const EditBlog = () => {
-    const [html, setHtml] = useState();
-    const params = useParams();
+  const [blog, setBlog] = useState([]);
+
+  const [html, setHtml] = useState();
+  const params = useParams();
 
   const navigate = useNavigate();
   //  for form
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
+  // fetch blog detail
+
+  const fetchBlog = async () => {
+    const res = await fetch(`http://127.0.0.1:8000/api/show/${params.id}`);
+    const result = await res.json();
+    setBlog(result.data);
+    setHtml(result.data.description);
+    reset(result.data);
+  };
 
   // Submit form
   const formSubmit = async (data) => {
@@ -35,8 +47,8 @@ const EditBlog = () => {
     }
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/edit/${params.id}`, {
-        method: "PUT",
+      const res = await fetch("http://127.0.0.1:8000/api/store", {
+        method: "POST",
         body: formData, // Use FormData for file upload
       });
 
@@ -53,13 +65,18 @@ const EditBlog = () => {
     }
   };
 
+  useEffect(() => {
+    fetchBlog();
+  }, []);
+
   function onChange(e) {
     setHtml(e.target.value);
   }
+
   return (
     <div className="container mb-5">
       <div className="d-flex justify-content-between pt-5 mb-4">
-        <h4>Create Blog</h4>
+        <h4>Edit Blog</h4>
         <a href="/" className="btn btn-dark">
           Back
         </a>
@@ -116,7 +133,7 @@ const EditBlog = () => {
                 <p className="invalid-feedback">author field is required</p>
               )}
             </div>
-            <button className="btn btn-dark">Update</button>
+            <button className="btn btn-dark">Create</button>
           </div>
         </form>
       </div>
